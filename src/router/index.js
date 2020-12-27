@@ -27,6 +27,11 @@ const routes = [
     name: 'Usuarios',
     component: () => import('../views/Config/Usuarios'),
   },
+  {
+    path: '/caixa/vendas',
+    name: 'Vendas',
+    component: () => import('../views/Caixa/Vendas'),
+  }
 ]
 
 const router = new VueRouter({

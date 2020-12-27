@@ -32,6 +32,23 @@
             <v-list-item-title>Início</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link to="/caixa/vendas">
+          <v-list-item-action>
+            <v-icon>mdi-cash-register</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Caixa</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link to="/produtos">
+          <v-list-item-action>
+            <v-icon>mdi-tag</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Produtos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
       </v-list>
       <template v-slot:append>
         <div class="px-2 pb-3" v-if="!$vuetify.breakpoint.lgAndUp">
