@@ -5,7 +5,7 @@ class EmailAcougue
 {
   const SMTP_HOST = 'smtp.gmail.com';
   const SMTP_PORT = 587;
-  const EMAIL_ADDR = 'naoresponder@crecims.gov.br';
-  const EMAIL_PASS = 'ewvogntmgxewsntv';
-  const EMAIL_NOME = 'CRECI-MS: Mensageiro Virtual';
+  const EMAIL_ADDR = 'acouguecharao@gmail.com';
+  const EMAIL_PASS = 'uxciehvwnskchdes';
+  const EMAIL_NOME = 'Sistema Açougue Charão';
 }

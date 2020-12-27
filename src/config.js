@@ -5,7 +5,7 @@ export const config = {
   appBarTitle: 'Açougue Charão',
   appBarTitleMobile: 'Charão',
   http: {
-    requestBaseUrl: 'http://localhost:3000/services/',
+    requestBaseUrl: 'http://localhost:3000/',
     requestTimeout: 90000,
   },
 };

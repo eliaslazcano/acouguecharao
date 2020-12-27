@@ -36,7 +36,7 @@ class AuthHelper
       'occupation' => $user['cargo'],
     ]);
 
-    $statement = Charao::preparedStatement('INSERT INTO sessoes (usuario, segredo, ip, datahora) VALUES (:username, :secret, :ip, :datahora)', [':username' => $user['username'], ':secret' => $secret, ':ip' => HttpHelper::obterIp(), ':datahora' => $date], $conn);
+    $statement = Charao::preparedStatement('INSERT INTO sessoes (usuario, segredo, ip, datahora) VALUES (:username, :secret, :ip, :datahora)', [':username' => $user['id'], ':secret' => $secret, ':ip' => HttpHelper::obterIp(), ':datahora' => $date], $conn);
     if (!$statement->execute()) {
       if (!$silent) HttpHelper::erroJson(500, 'Falha na base de dados', 2, $statement->errorInfo());
       else return false;

@@ -83,16 +83,6 @@
               autocapitalize="off"
               class="mb-3"
             ></v-text-field>
-            <v-text-field
-              label="E-mail"
-              placeholder="e-mail"
-              prepend-inner-icon="mdi-email"
-              :rules="emailRules"
-              v-model="email"
-              outlined
-              autocomplete="off"
-              autocapitalize="off"
-            ></v-text-field>
             <p class="text-center body-2">Este procedimento enviará uma nova senha para o seu e-mail.</p>
           </v-card-text>
           <v-divider/>
@@ -108,7 +98,6 @@
 </template>
 
 <script>
-//Todo - Esqueci a senha
 import { config } from '@/config';
 import SessionWebClient from '@/http/SessionWebClient';
 import UserWebClient from '@/http/UserWebClient';
@@ -118,7 +107,7 @@ export default {
     config,
     user: '',
     password: '',
-    email: '',
+    showPassword: false,
     loading: false,
     userRules: [
       v => !!v || 'O nome de usuario é obrigatório',
@@ -129,10 +118,6 @@ export default {
       v => (v && v.length >= 4) || 'Precisa ter pelo menos 4 caracteres',
       v => (v && v.length <= 16) || 'O limite é 16 caracteres',
       v => (!/\s/g.test(v)) || 'Espaços não são permitidos',
-    ],
-    emailRules: [
-      v => !!v || 'E-mail é obrigatório',
-      v => /.+@.+\..+/.test(v) || 'Insira um e-mail válido',
     ],
     dialogRecover: false,
     dialogLoading: false,
@@ -160,9 +145,9 @@ export default {
       this.dialogLoading = true;
       try {
         const userWebClient = new UserWebClient();
-        await userWebClient.resetSenha(this.user, this.email);
+        const email = await userWebClient.resetSenha(this.user);
         this.dialogRecover = false;
-        this.$snackbar({text: 'Uma nova senha foi enviada para seu e-mail', color: 'success'});
+        this.$snackbar({text: 'Nova senha enviada para o e-mail ' + email, color: 'success'});
       } finally {
         this.dialogLoading = false;
       }

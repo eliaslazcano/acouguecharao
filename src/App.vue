@@ -5,7 +5,47 @@
       clipped
       v-if="$store.getters['session/logged']"
       v-model="showMenu"
-    ></v-navigation-drawer>
+    >
+      <template v-slot:prepend>
+        <v-list>
+          <v-list-item two-line :to="'/usuario/' + $store.getters['session/payload'].id">
+            <v-list-item-avatar>
+              <v-avatar color="primary" class="font-weight-medium white--text elevation-2">
+                <!-- Use <img> here -->
+                <template>{{nameInitials}}</template>
+              </v-avatar>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{shortName}}</v-list-item-title>
+              <v-list-item-subtitle>{{occupation}}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </template>
+      <v-divider/>
+      <v-list dense>
+        <v-list-item link to="/">
+          <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Início</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <template v-slot:append>
+        <div class="px-2 pb-3" v-if="!$vuetify.breakpoint.lgAndUp">
+          <v-btn
+            @click="exit"
+            color="primary"
+            class="white--text"
+            block
+          >
+            <v-icon class="mr-1">mdi-power-standby</v-icon>SAIR
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
     <v-app-bar
       app
       dark
@@ -93,14 +133,18 @@ export default {
   },
   computed: {
     shortName() {
-      const name = this.$store.getters['session/payload'] ? this.$store.getters['session/payload'].name : '';
-      return name ? StringHelper.shortName(name.toUpperCase()) : '';
+      if (!this.$store.getters['session/payload']) return '';
+      if (this.$store.getters['session/payload'].shortname) return this.$store.getters['session/payload'].shortname.toUpperCase();
+      if (!this.$store.getters['session/payload'].name) return '';
+      return StringHelper.shortName(this.$store.getters['session/payload'].name.toUpperCase());
     },
     nameInitials() {
       return this.shortName ? StringHelper.nameInitials(this.shortName) : '';
     },
     occupation() {
-      return this.$store.getters['session/payload'] ? this.$store.getters['session/payload'].occupation.toUpperCase() : '';
+      if (!this.$store.getters['session/payload']) return '';
+      if (this.$store.getters['session/payload'].occupation) return this.$store.getters['session/payload'].occupation.toUpperCase();
+      else return '';
     },
     version() {
       const array = version.split('.');
