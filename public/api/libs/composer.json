@@ -1,0 +1,14 @@
+{
+    "name": "charao",
+    "description": "Acougue Charao",
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elias Lazcano Castro Neto",
+            "email": "elias304162@gmail.com"
+        }
+    ]
+}
