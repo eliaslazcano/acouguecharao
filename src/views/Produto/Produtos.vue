@@ -3,7 +3,10 @@
     <v-data-table
       :items="items"
       :headers="headers"
+      :search="search"
       class="elevation-2"
+      no-data-text="Nenhum produto cadastrado"
+      no-results-text="Nenhum produto encontrado"
     >
       <template v-slot:top>
         <v-card-title>
@@ -11,6 +14,14 @@
           <v-spacer/>
           <v-btn small color="success">Adicionar produto</v-btn>
         </v-card-title>
+        <v-card-text>
+          <v-text-field
+            solo-inverted
+            label="Pesquisar"
+            prepend-inner-icon="mdi-magnify"
+            v-model="search"
+          ></v-text-field>
+        </v-card-text>
       </template>
       <template v-slot:item.preco="{item}">R$ {{item.preco.toFixed(2)}}</template>
       <template v-slot:item.action>
@@ -41,6 +52,7 @@
         {value: 'preco', text: 'Preço'},
         {value: 'action', text: 'Ações'},
       ],
+      search : '',
     }),
     methods: {
       async loadData() {
