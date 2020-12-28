@@ -1,7 +1,7 @@
 <template>
   <async-container :loading="!loaded" fluid>
     <!-- Inserção de produto -->
-    <v-card>
+    <v-card v-if="!id">
       <v-card-text>
         <v-text-field
           label="Código do produto"
@@ -27,6 +27,9 @@
       hide-default-footer
       no-data-text="Nenhum produto adicionado"
     >
+      <template v-slot:top>
+        <v-card-title v-if="!!id">Produtos vendidos</v-card-title>
+      </template>
       <template v-slot:item.produto="{item}">{{getProdutoNome(item.produto)}}</template>
       <template v-slot:item.preco="{item}">{{formatarValor(item.preco)}}</template>
       <template v-slot:item.quantidade="{item}">
@@ -37,13 +40,14 @@
           single-line
           v-model="item.quantidade"
           @keydown.prevent="quantidadePress($event, item.produto)"
+          :disabled="!!id"
         ></v-text-field>
       </template>
       <template v-slot:item.total="{item}">
         <span :class="{'red--text': parseFloat(item.quantidade) === 0}">{{formatarValor(parseFloat(item.quantidade) * item.preco)}}</span>
       </template>
       <template v-slot:item.actions="{item}">
-        <v-btn icon color="error" @click="removerProduto(item.produto)">
+        <v-btn icon color="error" @click="removerProduto(item.produto)" :disabled="!!id">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -54,9 +58,14 @@
         <v-card-text>
           <p class="text-h5 mb-0 text-center">TOTAL</p>
           <p class="text-h2 mb-0 text-right">R$ {{valorTotal}}</p>
+          <div v-if="!!id" class="text-right">
+            <v-divider class="my-1"/>
+            <p class="subtitle-1 mb-0">Desconto: R$ {{parseFloat(iptDesconto).toFixed(2)}}</p>
+            <p class="subtitle-1 mb-0">Valor cobrado: R$ {{(parseFloat(valorTotal) - parseFloat(iptDesconto)).toFixed(2)}}</p>
+          </div>
         </v-card-text>
         <v-divider/>
-        <v-card-actions class="justify-center">
+        <v-card-actions class="justify-center" v-if="!id">
           <v-btn rounded color="error" @click="cobrar">
             <v-icon class="mr-2">mdi-cash-check</v-icon>
             COBRAR
@@ -142,6 +151,7 @@
   import VendaWebClient from '../../http/VendaWebClient';
   export default {
     name: 'Venda',
+    props: ['id'],
     components: {AsyncContainer},
     data: () => ({
       loaded: false,
@@ -166,6 +176,11 @@
         const vendaWebClient = new VendaWebClient();
         try {
           this.produtos = await vendaWebClient.getProdutos();
+          if (this.id) {
+            const venda = await vendaWebClient.getVenda(this.id);
+            this.iptDesconto = venda.desconto.toString();
+            this.items = venda.produtos;
+          }
         } finally {
           this.loaded = true;
         }

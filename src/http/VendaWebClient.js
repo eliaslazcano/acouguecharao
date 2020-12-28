@@ -21,6 +21,16 @@ export default class VendaWebClient {
   }
 
   /**
+   * Obtem os dados de uma venda.
+   * @param {number|string} id Chave primaria da venda.
+   * @returns {Promise<any>}
+   */
+  async getVenda(id) {
+    const {data} = await this.http.get('/vendas?id=' + id);
+    return data;
+  }
+
+  /**
    * Registra uma venda
    * @param {any[]} produtos
    * @param {number} desconto

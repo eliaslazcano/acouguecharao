@@ -34,9 +34,16 @@ const routes = [
     component: () => import('../views/Caixa/Vendas'),
   },
   {
-    path: '/caixa/venda',
+    path: '/caixa/venda/:id?',
     name: 'Venda',
     component: () => import('../views/Caixa/Venda'),
+    props: true,
+  },
+  {
+    path: '/produtos',
+    name: 'Produtos',
+    component: () => import('../views/Produto/Produtos'),
+    props: true,
   },
 ];
 

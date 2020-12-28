@@ -22,7 +22,11 @@
       </template>
       <template v-slot:item.datahora="{item}">{{formatarData(item.datahora)}}</template>
       <template v-slot:item.total="{item}">R$ {{item.total.toFixed(2)}}</template>
-      <template v-slot:item.total="{item}">R$ {{item.total.toFixed(2)}}</template>
+      <template v-slot:item.action="{item}">
+        <v-btn icon color="primary" :to="'/caixa/venda/' + item.id">
+          <v-icon>mdi-eye</v-icon>
+        </v-btn>
+      </template>
     </v-data-table>
   </async-container>
 </template>
