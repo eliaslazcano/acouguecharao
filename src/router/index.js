@@ -31,7 +31,12 @@ const routes = [
     path: '/caixa/vendas',
     name: 'Vendas',
     component: () => import('../views/Caixa/Vendas'),
-  }
+  },
+  {
+    path: '/caixa/venda',
+    name: 'Venda',
+    component: () => import('../views/Caixa/Venda'),
+  },
 ]
 
 const router = new VueRouter({

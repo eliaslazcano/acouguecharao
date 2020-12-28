@@ -1,4 +1,7 @@
 <?php
+/**
+ * GET => Obtem a listagem de produtos cadastrados.
+ */
 
 require_once __DIR__.'/../helper/HttpHelper.php';
 require_once __DIR__.'/../helper/AuthHelper.php';
@@ -9,6 +12,6 @@ $conn = Charao::getConexao();
 AuthHelper::validateSession(null, $conn);
 
 if (HttpHelper::isGet()) {
-  $vendas = Charao::fastQuery('SELECT v.id, v.datahora, v.usuario, u.nome usuario_nome, u.apelido usuario_apelido FROM vendas v INNER JOIN usuarios u ON v.usuario = u.id', $conn, [], ['id', 'usuario']);
-  HttpHelper::emitirJson($vendas);
+  $produtos = Charao::fastQuery('SELECT id, nome, codigo, preco, criado_em, alterado_em FROM produtos', $conn, [], ['id', 'preco']);
+  HttpHelper::emitirJson($produtos);
 }

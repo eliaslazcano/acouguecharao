@@ -1,5 +1,5 @@
 <template>
-  <async-container :loading="!loaded">
+  <async-container :loading="!loaded" fluid>
     <v-data-table
       class="elevation-2"
       no-data-text="Nenhuma venda"
@@ -12,7 +12,7 @@
         <v-card-title>
           Vendas
           <v-spacer/>
-          <v-btn color="success" small>
+          <v-btn color="success" small to="/caixa/venda">
             <v-icon class="mr-1">mdi-plus</v-icon>
             Nova venda
           </v-btn>
