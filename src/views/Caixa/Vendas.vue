@@ -7,6 +7,8 @@
       :items="items"
       :headers="headers"
       :footer-props="{'items-per-page-options': [10, 25, 50, 100]}"
+      sort-by="datahora"
+      sort-desc
     >
       <template v-slot:top>
         <v-card-title>
@@ -18,6 +20,9 @@
           </v-btn>
         </v-card-title>
       </template>
+      <template v-slot:item.datahora="{item}">{{formatarData(item.datahora)}}</template>
+      <template v-slot:item.total="{item}">R$ {{item.total.toFixed(2)}}</template>
+      <template v-slot:item.total="{item}">R$ {{item.total.toFixed(2)}}</template>
     </v-data-table>
   </async-container>
 </template>
@@ -25,13 +30,18 @@
 <script>
 import AsyncContainer from '../../components/interface/AsyncContainer';
 import VendaWebClient from "../../http/VendaWebClient";
+import moment from 'moment';
 export default {
   name: 'Vendas',
   components: {AsyncContainer},
   data: () => ({
     loaded: false,
     items: [],
-    headers: [],
+    headers: [
+      {value: 'datahora', text: 'Data'},
+      {value: 'total', text: 'Valor'},
+      {value: 'action', text: 'Detalhes'},
+    ],
   }),
   methods: {
     async loadData() {
@@ -41,6 +51,9 @@ export default {
       } finally {
         this.loaded = true;
       }
+    },
+    formatarData(datetime) {
+      return moment(datetime).format('DD/MM/YYYY HH:mm');
     },
   },
   created() {

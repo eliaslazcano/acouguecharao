@@ -129,8 +129,8 @@
         </v-card-text>
         <v-divider/>
         <v-card-actions class="justify-center">
-          <v-btn color="success" rounded>Confirmar pagamento</v-btn>
-          <v-btn color="error" rounded @click="dialogCobrar = false">Cancelar</v-btn>
+          <v-btn color="success" rounded :loading="registrandoVenda" @click="confirmarPagamento">Confirmar pagamento</v-btn>
+          <v-btn color="error" rounded @click="dialogCobrar = false" :disabled="registrandoVenda">Cancelar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -159,6 +159,7 @@
       dialogCobrar: false,
       searchProduto: '',
       iptDesconto: '0',
+      registrandoVenda: false,
     }),
     methods: {
       async loadData() {
@@ -236,6 +237,24 @@
         } else if (event.key === 'Backspace') {
           if (this.iptDesconto.length === 1) this.iptDesconto = '0';
           else if (this.iptDesconto.length > 0) this.iptDesconto = this.iptDesconto.substr(0, this.iptDesconto.length - 1);
+        }
+      },
+      async confirmarPagamento() {
+        const vendaWebClient = new VendaWebClient();
+        try {
+          this.registrandoVenda = true;
+          const produtos = this.items.map(i => {
+            i.quantidade = parseFloat(i.quantidade);
+            return i;
+          });
+          await vendaWebClient.insertVenda(produtos, parseFloat(this.iptDesconto));
+          this.$snackbar({text: 'Venda registrada', color: 'success'});
+          this.$router.push('/caixa/vendas');
+        } catch (e) {
+          console.log(e);
+          this.$snackbar({text: 'Ocorreu um erro', color: 'error', timeout: 3000});
+        } finally {
+          this.registrandoVenda = false;
         }
       },
     },

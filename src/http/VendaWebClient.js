@@ -20,6 +20,18 @@ export default class VendaWebClient {
     return data;
   }
 
+  /**
+   * Registra uma venda
+   * @param {any[]} produtos
+   * @param {number} desconto
+   * @returns {Promise<*>}
+   */
+  async insertVenda(produtos, desconto) {
+    const venda = {produtos, desconto};
+    const {data} = await this.http.post('/vendas', venda);
+    return data;
+  }
+
   async getProdutos() {
     const {data} = await this.http.get('/produtos');
     return data;
