@@ -100,6 +100,7 @@
             @click:row="inserirProdutoPelaBusca"
             class="itemhover"
             :items-per-page="10"
+            sort-by="nome"
           >
             <template v-slot:item.preco="{item}">{{formatarValor(item.preco)}}</template>
           </v-data-table>
@@ -113,14 +114,6 @@
           Pagamento da venda
         </v-card-title>
         <v-card-text class="mt-3">
-          <v-text-field
-            label="Total dos produtos"
-            :value="valorTotal"
-            outlined
-            prefix="R$"
-            readonly
-            dense
-          ></v-text-field>
           <vuetify-money
             label="Desconto"
             placeholder="Digite um desconto se houver"
