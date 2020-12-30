@@ -79,6 +79,7 @@
       headers: [
         {value: 'nome', text: 'Nome'},
         {value: 'preco', text: 'Preço'},
+        {value: 'codigo', text: 'Codigo'},
         {value: 'action', text: 'Ações'},
       ],
       search : '',
