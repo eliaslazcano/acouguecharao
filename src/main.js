@@ -9,6 +9,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import { config } from './config'
 import { Alert, Snackbar } from './models'
 import './plugins/axios'
+import './plugins/vuetify-money'
 import moment from 'moment'
 
 window.document.title = config.pageTitle;

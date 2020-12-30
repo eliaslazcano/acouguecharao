@@ -121,19 +121,32 @@
             readonly
             dense
           ></v-text-field>
-          <v-text-field
+          <vuetify-money
             label="Desconto"
             placeholder="Digite um desconto se houver"
             v-model="iptDesconto"
             outlined
             prefix="R$"
-            @keydown.prevent="descontoPress"
             dense
-          ></v-text-field>
+          ></vuetify-money>
+          <vuetify-money
+            label="Troco pra quantos R$?"
+            placeholder="Digite o valor que o cliente deu"
+            v-model="iptTroco"
+            outlined
+            prefix="R$"
+            dense
+          ></vuetify-money>
           <v-divider/>
-          <div class="text-center mt-2">
-            <p class="subtitle-1 mb-0">Total a cobrar</p>
-            <p class="title mb-0">R$ {{(parseFloat(valorTotal) - parseFloat(iptDesconto)).toFixed(2)}}</p>
+          <div class="mt-2 d-flex justify-space-around">
+            <div>
+              <p class="subtitle-1 mb-0">Total a cobrar</p>
+              <p class="title mb-0" :class="{'red--text': (parseFloat(valorTotal) - parseFloat(iptDesconto)) <= 0}">R$ {{(parseFloat(valorTotal) - parseFloat(iptDesconto)).toFixed(2)}}</p>
+            </div>
+            <div>
+              <p class="subtitle-1 mb-0">Troco</p>
+              <p class="title mb-0">R$ {{troco > 0 ? troco.toFixed(2) : 0.00}}</p>
+            </div>
           </div>
         </v-card-text>
         <v-divider/>
@@ -169,6 +182,7 @@
       dialogCobrar: false,
       searchProduto: '',
       iptDesconto: '0',
+      iptTroco: '0',
       registrandoVenda: false,
     }),
     methods: {
@@ -279,6 +293,9 @@
     computed: {
       valorTotal() {
         return this.items.reduce((carry, item) => carry + (parseFloat(item.quantidade) * item.preco), 0).toFixed(2);
+      },
+      troco() {
+        return parseFloat(this.iptTroco) - parseFloat(this.valorTotal);
       },
     },
   }

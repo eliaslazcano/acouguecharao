@@ -52,12 +52,11 @@
             hint="Número do código de barras"
             :disabled="loadingEditor"
           ></v-text-field>
-          <v-text-field
+          <vuetify-money
             label="Preço"
             v-model="iptPreco"
-            @keydown.prevent="precoKeydown"
             :disabled="loadingEditor"
-          ></v-text-field>
+          ></vuetify-money>
         </v-card-text>
         <v-card-actions class="justify-center">
           <v-btn color="primary" @click="updateProduto" :loading="loadingEditor">Salvar</v-btn>
